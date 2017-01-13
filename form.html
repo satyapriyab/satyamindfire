@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<title>
+			User Registration Form
+		</title>
+		<link rel="stylesheet" href="css/bootstrap.css">
+		<script type="text/javascript" src="js/myscript.js"></script>>
+	</head>
+	<body bgcolor="#ccd9ff" >
+		<div class="container text-center">
+			<h1>User Registration Form</h1>
+		</div>
+		<form class="form-horizontal" name= "user_registration" action="#" onsubmit="return(check(event));">
+			<div class="container">
+				<div class="jumbotron">
+					<div class="page-header">
+						<h3>Personal Details</h3>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-2" for="User" >User Name* :</label>
+						<div class="col-sm-10">
+							<input type="text" name="name" id="name" maxlength="30"><br>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-2" for="Pass" >Enter Password* :</label>
+						<div class="col-sm-10">
+							<input type="password" name="n_pass"><br>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-2" for="pass1" >Re-Enter Password* :</label>
+						<div class="col-sm-10">
+							<input type="password" name="r_pass"><br>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-2" for="mail" >Email* :</label>
+						<div class="col-sm-10">
+							<input type="text" name="email" id="e_mail"  ><br>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-2" for="gender" >Gender* :</label>
+						<div class="col-sm-10">
+							<input type="radio" name="gender" value="male" id="gender_male" > Male
+							<input type="radio" name="gender" value="female" id="gender_female" > Female
+							<input type="radio" name="gender" value="other" id="gender_other" > Other<br>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-2" for="birthday" >Birthday* :</label>
+						<div class="col-sm-10">
+							<input type="date" name="bday" id="b_day" ><br>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-2" for="num" >Mobile Number* :</label>
+						<div class="col-sm-10">
+							<input type="text" name="number" id="m_number" ><br>
+						</div>
+					</div>
+				</div>
+				<div class="jumbotron">
+					<div class="page-header">
+						<h3>Address Details</h3>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-2" for="address" >Address* :</label>
+						<div class="col-sm-10">
+							<input type="text" name="Address" id="addr" size="50"><br>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-2" for="code" >Pincode* :</label>
+						<div class="col-sm-10">
+							<input type="text" name="Code" id="p_code" ><br>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-2" for="country" >Country :</label>
+						<div class="col-sm-10">
+							<select id="s_country" name=s_country>
+								<option value="India">India</option>
+								<option value="USA">USA</option>
+								<option value="Pakistan">Pakistan</option>
+								<option value="Srilanka">Srilanka</option>		
+							</select><br>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-2" for="state" >State :</label>
+						<div class="col-sm-10">
+							<input type="text" name="state" id="s_state"><br>
+						</div>
+					</div>
+				</div>
+				<div id="submit_button">
+					<center>
+					<input type="submit" value= "submit" class="btn btn-primary btn-lg" >
+					<button type="reset" value="Reset" class="btn btn-primary btn-lg">Reset</button>
+					<center>
+				</div>
+			</div>
+		</form>
+		<h5>The fields that are marked * shouldnot be kept blank</h5>
+		<div id="mydata">
+		<b>Current data in the system ...</b>
+		<table class="table-bordered table-striped table-condensed" id="myTableData" border="2" cellspacing=2 cellpadding=5>
+			<tr>
+				<td><b>Name</b></td>
+				<td><b>Email</b></td>
+				<td><b>Gender</b></td>
+				<td><b>Birthday</b></td>
+				<td><b>Mobile Number</b></td>
+				<td><b>Address</b></td>
+				<td><b>Pincode</b></td>
+				<td><b>Country</b></td>
+				<td><b>State</b></td>
+				<td><b>&nbsp;</b></td>
+			</tr>
+		</table>
+		<br/>
+		</div>
+	</body>
+</html>
