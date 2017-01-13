@@ -11,7 +11,7 @@ $(function() {
     $("#mobileNumberErrorMessage").hide();
     $("#addressErrorMessage").hide();
     $("#pinodeErrorMessage").hide();
-    $("#genderErrorMessage").hide();
+    $("#genderErrorMessage").hide(); 
     $("#birthdayErrorMessage").hide();
     
     var errorName = false;
