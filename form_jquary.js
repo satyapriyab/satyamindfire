@@ -1,11 +1,13 @@
 /*
- * Title - User Registration form 
- * Author - Satyapriya Baral
- */
+* File    : form_jquery.js
+* Purpose : Contains all functions for User Registration Form Validation, table creation and update
+* Created : 11-jan-2017
+* Author  : Satyapriya Baral
+*/
 
 $(function() {
     $("#nameErrorMessage").hide();
-    $("#newPasswordErrorMessage").hide();
+    $("#passwordErrorMessage").hide();
     $("#retypePasswordErrorMessage").hide();
     $("#emailErrorMessage").hide();
     $("#mobileNumberErrorMessage").hide();
@@ -13,6 +15,8 @@ $(function() {
     $("#pinodeErrorMessage").hide();
     $("#genderErrorMessage").hide(); 
     $("#birthdayErrorMessage").hide();
+    $("#duplicateUsernameErrorMessage").hide();
+    $("#duplicateEmailErrorMessage").hide();
     
     var errorName = false;
     var errorNewPassword = false;
@@ -23,21 +27,33 @@ $(function() {
     var errorPincode = false;
     var errorGender = false;
     var errorBirthday = false;
+    var errorDuplicateUsername = false;
+    var errorDuplicateEmail = false;
     
     $("#formName").focusout(function(){
         checkName();
+        checkDuplicateUsername();
     });
     
     $("#formNewPassword").focusout(function(){
-        checkNewPassword();
+        checkPassword();
     });
     
     $("#formRetypePassword").focusout(function(){
         checkRetypePassword();
     });
     
+    $("#formBirthday").focusout(function(){
+        checkBirthday();
+    });
+    
+    $("#formGender").focusout(function(){
+        checkGender();
+    });
+    
     $("#formEmail").focusout(function(){
         checkEmail();
+        checkDuplicateUsername();
     });
 
     $("#formMobileNumber").focusout(function(){
@@ -52,7 +68,10 @@ $(function() {
         checkPincode();
     });
     
-    //Username Validation
+    /*
+    * Function for Username Validation.
+    * Takes id of name as input.
+    */
     function checkName(){
         var nameLength = $("#formName").val().length;
         if(nameLength < 5 || nameLength > 30)
@@ -67,47 +86,56 @@ $(function() {
         }
     }
     
-    //Password Validation
-    function checkNewPassword(){
+    /*
+    * Function for Password Validation.
+    * Take id of password field as input.
+    */
+    function checkPassword(){
         var newPassword = $("#formNewPassword").val();
         var retypePassword = $("#formRetypePassword").val();
-        if(( newPassword !=   retypePassword ) || (   newPassword.length < 5 ||   retypePassword.length < 5 ))
+        if(( newPassword != retypePassword ) || ( newPassword.length < 5 || retypePassword.length < 5 ))
         {
             $("#retypePasswordErrorMessage").html("Password Error (should match and minimum of 5 charecters)");
-            $("#newPasswordErrorMessage").html("Password Error (should match and minimum of 5 charecters)");
+            $("#passwordErrorMessage").html("Password Error (should match and minimum of 5 charecters)");
             $("#retypePasswordErrorMessage").show();
-            $("#newPasswordErrorMessage").show();
+            $("#passwordErrorMessage").show();
             errorRetypePassword = true;
             errorNewPassword = true;
         }
         else
         {
             $("#retypePasswordErrorMessage").hide();
-            $("#newPasswordErrorMessage").hide();
+            $("#passwordErrorMessage").hide();
         }
     }
     
-    //Password Validation
+    /*
+    * Function for Password Validation.
+    * Takes id of Retype Password field as input.
+    */
     function checkRetypePassword(){
         var   newPassword = $("#formNewPassword").val();
         var   retypePassword = $("#formRetypePassword").val();
-        if((   newPassword !=   retypePassword ) || (   newPassword.length < 5 ||   retypePassword.length < 5 ))
+        if(( newPassword != retypePassword ) || ( newPassword.length < 5 || retypePassword.length < 5 ))
         {
             $("#retypePasswordErrorMessage").html("Password Error (should match and minimum of 5 charecters)");
-            $("#newPasswordErrorMessage").html("Password Error (should match and minimum of 5 charecters)");
+            $("#passwordErrorMessage").html("Password Error (should match and minimum of 5 charecters)");
             $("#retypePasswordErrorMessage").show();
-            $("#newPasswordErrorMessage").show();
+            $("#passwordErrorMessage").show();
             errorRetypePassword = true;
             errorNewPassword = true;
         }
         else
         {
             $("#retypePasswordErrorMessage").hide();
-            $("#newPasswordErrorMessage").hide();
+            $("#passwordErrorMessage").hide();
         }
     }
     
-    //Email Validation
+    /*
+    * Function for Email Validation.
+    * Takes id of Email field as input.
+    */
     function checkEmail(){
         var email = $("#formEmail").val();
         var at_pos = email.indexOf("@");
@@ -123,7 +151,10 @@ $(function() {
         }
     }
     
-    //Gender Validation
+    /*
+    * Function for Gender Validation.
+    * Takes id of gender as input.
+    */
     function checkGender()
     {
         var flag = 0;
@@ -143,7 +174,10 @@ $(function() {
         }
 	}
     
-    //Birthday Validation
+    /*
+    * Function for Birthday Validation.
+    * Takes id of birthday field as input.
+    */
     function checkBirthday(){
         var birthdayLength = $("#formBirthday").val().length;
         if(birthdayLength < 1)
@@ -154,11 +188,14 @@ $(function() {
         }
         else
         {
-            $("birthdayErrorMessage").hide();
+            $("#birthdayErrorMessage").hide();
         }
     }
     
-    //Mobile Number Validation
+    /*
+    * Function for Mobile Number Validation.
+    * Takes id of Mobile Number field as input.
+    */
     function checkMobileNumber(){
         var mobileNumberLength = $("#formMobileNumber").val().length;
         if(mobileNumberLength < 10 || mobileNumberLength > 10)
@@ -173,7 +210,10 @@ $(function() {
         }
     }
     
-    //Address Validation
+    /*
+    * Function for Address Validation.
+    * Takes id of address field as input.
+    */
     function checkAddress(){
         var addressLength = $("#formAddress").val().length; 
         if(addressLength < 1)
@@ -188,7 +228,10 @@ $(function() {
         }
     }
     
-    //Pincode Validation
+    /*
+    * Function for Pincode Validation.
+    * Takes id of pincode field as input.
+    */
     function checkPincode(){
         var pincodeLength = $("#formPincode").val().length;
         if(pincodeLength < 5)
@@ -202,7 +245,11 @@ $(function() {
             $("#pincodeErrorMessage").hide();
         }
     }
-    //submit Function
+    
+    /*
+    * Submit Button Function.
+    * Submits the form and deletes the row in the table that will be updated.
+    */
     $("#userRegistrationForm").on('submit' , function(e){
         e.preventDefault();
         
@@ -210,26 +257,30 @@ $(function() {
         errorNewPassword = false;
         errorRetypePassword = false;
         errorEmail = false;
-        errorGender = false;
         errorMobileNumber = false;
         errorAddress = false;
         errorPincode = false;
         errorGender = false;
         errorBirthday = false;
+        errorDuplicateUsername = false;
+        errorDuplicateEmail = false;
         
         checkName();
-        checkNewPassword(); 
+        checkPassword(); 
         checkRetypePassword();
         checkEmail();
-        checkGender();
         checkMobileNumber();
         checkAddress();
         checkPincode();
         checkGender();
         checkBirthday();
+        checkDuplicateUsername();
+        checkDuplicateEmail();
         
-        if(errorName === false && errorNewPassword === false && errorRetypePassword === false && errorEmail === false
-           && errorMobileNumber === false && errorAddress === false && errorPincode === false)
+        if(errorName === false && errorNewPassword === false && errorRetypePassword === false
+           && errorEmail === false && errorGender === false && errorMobileNumber === false &&
+           errorAddress === false && errorPincode === false && errorBirthday === false &&
+           errorDuplicateUsername === false && errorDuplicateEmail === false)
         {
             $("table tbody").find('input[name="record"]').each(function(){
                 if($(this).is(":checked")){    
@@ -243,7 +294,10 @@ $(function() {
         }
     });
     
-    //Data Entry To Table
+    /*
+    * Function for Entering data to the table.
+    * Takes all the data in the form and adds it to the table.
+    */
     function table_entry()
     {
         var gender;
@@ -260,12 +314,15 @@ $(function() {
         }
         var markup = "<tr><td> <input type='checkbox' name='record'> </td><td>"+
         $("#formName").val() +"</td><td>"+ $("#formEmail").val() + "</td><td>"+ gender +"</td><td>"+
-        $('#formBirthday').val() +"</td><td>"+ $('#formMobileNumber').val() +"</td><td>"+ $('#formAddress').val() +"</td><td>"+
-        $('#formPincode').val() +"</td><td>"+ $('#formSelectCountry').val() +"</td><td>"+ $('#formSelectState').val() +"</td></tr>";
+        $('#formBirthday').val() +"</td><td>"+ $('#formMobileNumber').val() +"</td><td>"+
+        $('#formAddress').val() +"</td><td>"+ $('#formPincode').val() +"</td><td>"+
+        $('#formSelectCountry').val() +"</td><td>"+ $('#formSelectState').val() +"</td></tr>";
         $("table tbody").append(markup); 
     }
     
-    //Delete Row
+    /*
+    * Function to delete a row from the table
+    */
     $(".delete-row").click(function(){
         $("table tbody").find('input[name="record"]').each(function(){
             if($(this).is(":checked")){
@@ -274,7 +331,9 @@ $(function() {
         });
     });
     
-    //Update
+    /*
+    * Function to update a row in the table.
+    */
     $(".update-row").click(function(){
         $("table tbody").find('input[name="record"]').each(function(){
             if($(this).is(":checked")){
@@ -300,4 +359,50 @@ $(function() {
             }
         });
     });
+    
+    /*
+    * Function for Duplicate Username Validation.
+    * Takes the table data as input.
+    */
+    function checkDuplicateUsername(){
+        $("table tbody").find('input[name="record"]').each(function(){
+            if($(this).is(':not(:checked)')){
+                var x = $(this).parent().parent();
+                var test = x.children("td:nth-child(2)");
+                if($("#formName").val() === test.html())
+                {
+                    $("#duplicateUsernameErrorMessage").html("Username Already Exists");
+                    $("#duplicateUsernameErrorMessage").show();
+                    errorDuplicateUsername = true;
+                }
+                else if(errorDuplicateUsername === false)
+                {
+                    $("#duplicateUsernameErrorMessage").hide();
+                }
+            }
+        });
+    }
+    
+    /*
+    * Function for Duplicate Email Validation.
+    * Takes the table data as input.
+    */
+    function checkDuplicateEmail(){
+        $("table tbody").find('input[name="record"]').each(function(){
+            if($(this).is(':not(:checked)')){
+                var x = $(this).parent().parent();
+                var test = x.children("td:nth-child(3)");
+                if($("#formEmail").val() === test.html())
+                {
+                    $("#duplicateEmailErrorMessage").html("Email Already Exists");
+                    $("#duplicateEmailErrorMessage").show();
+                    errorDuplicateEmail = true;
+                }
+                else if (errorDuplicateEmail === false)
+                {
+                    $("#duplicateEmailErrorMessage").hide();
+                }
+            }
+        });
+    }
 });

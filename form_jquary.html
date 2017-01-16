@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <!--
-	Title : User Registration Form 
-    Author : Satyapriya Baral	-->
+* File    : form_jquery.html
+* Purpose : Contains all html data for the creation of web page
+* Created : 11-jan-2017
+* Author  : Satyapriya Baral
+-->
 <html>
 	<head>
 		<meta charset="utf-8"/>
@@ -23,25 +26,31 @@
 					<div class="form-group">
 						<label class="control-label col-sm-2" for="User" >User Name* :</label>
 						<div class="col-sm-10">
-							<input class="col-xs-4" type="text" name="name" id="formName" value="" maxlength="30"><span style="color:red" class="ErrorForm" id="nameErrorMessage"></span><br>
+							<input class="col-xs-4" type="text" name="name" id="formName" value="" maxlength="30">
+							<span style="color:red" class="ErrorForm" id="nameErrorMessage"></span>
+							<span style="color:blue" class="ErrorForm" id="duplicateUsernameErrorMessage"></span><br>
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="control-label col-sm-2" for="Pass" >Enter Password* :</label>
 						<div class="col-sm-10">
-							<input class="col-xs-4" type="password" name="newPassword" id="formNewPassword"><span style="color:red" class="ErrorForm" id="newPasswordErrorMessage"></span><br>
+							<input class="col-xs-4" type="password" name="newPassword" id="formNewPassword">
+							<span style="color:red" class="ErrorForm" id="passwordErrorMessage"></span><br>
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="control-label col-sm-2" for="pass1" >Re-Enter Password* :</label>
 						<div class="col-sm-10">
-							<input class="col-xs-4" type="password" name="retypePassword" id="formRetypePassword"><span style="color:red" class="ErrorForm" id="retypePasswordErrorMessage"></span><br>
+							<input class="col-xs-4" type="password" name="retypePassword" id="formRetypePassword">
+							<span style="color:red" class="ErrorForm" id="retypePasswordErrorMessage"></span><br>
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="control-label col-sm-2" for="mail" >Email* :</label>
 						<div class="col-sm-10">
-							<input class="col-xs-4" type="text" name="email" id="formEmail"><span style="color:red" class="ErrorForm" id="emailErrorMessage"></span><br>
+							<input class="col-xs-4" type="text" name="email" id="formEmail">
+							<span style="color:red" class="ErrorForm" id="emailErrorMessage"></span>
+							<span style="color:blue" class="ErrorForm" id="duplicateEmailErrorMessage"></span><br>
 						</div>
 					</div>
 					<div class="form-group">
@@ -49,19 +58,22 @@
 						<div class="col-sm-10">
 							<input type="radio" name="gender" value="male" id="formGenderMale" > Male
 							<input type="radio" name="gender" value="female" id="formGenderFemale" > Female
-							<input type="radio" name="gender" value="other" id="formGenderOther" > Other       <span style="color:red" class="ErrorForm" id="genderErrorMessage"></span><br>
+							<input type="radio" name="gender" value="other" id="formGenderOther" > Other
+							<span style="color:red" class="ErrorForm" id="genderErrorMessage"></span><br>
 						</div><br>
 					</div>
 					<div class="form-group">
 						<label class="control-label col-sm-2" for="birthday" >Birthday* :</label>
 						<div class="col-sm-10">
-							<input type="date" name="bday" id="formBirthday" ><span style="color:red" class="ErrorForm" id="birthdayErrorMessage"></span><br>
+							<input type="date" name="bday" id="formBirthday" >
+							<span style="color:red" class="ErrorForm" id="birthdayErrorMessage"></span><br>
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="control-label col-sm-2" for="num" >Mobile Number* :</label>
 						<div class="col-sm-10">
-							<input type="number" name="number" id="formMobileNumber" ><span style="color:red" class="ErrorForm" id="mobileNumberErrorMessage"></span><br>
+							<input type="number" name="number" id="formMobileNumber" >
+							<span style="color:red" class="ErrorForm" id="mobileNumberErrorMessage"></span><br>
 						</div>
 					</div>
 				</div>
@@ -72,13 +84,15 @@
 					<div class="form-group">
 						<label class="control-label col-sm-2" for="address" >Address* :</label>
 						<div class="col-sm-10">
-							<input type="text" name="Address" id="formAddress" size="50"><span style="color:red" class="ErrorForm" id="addressErrorMessage"></span><br>
+							<input type="text" name="Address" id="formAddress" size="50">
+							<span style="color:red" class="ErrorForm" id="addressErrorMessage"></span><br>
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="control-label col-sm-2" for="code" >Pincode* :</label>
 						<div class="col-sm-10">
-							<input type="number" name="Code" id="formPincode" ><span style="color:red" class="ErrorForm" id="pincodeErrorMessage"></span><br>
+							<input type="number" name="Code" id="formPincode" >
+							<span style="color:red" class="ErrorForm" id="pincodeErrorMessage"></span><br>
 						</div>
 					</div>
 					<div class="form-group">
