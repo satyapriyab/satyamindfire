@@ -206,7 +206,7 @@ $(function() {
     $("#userRegistrationForm").on('submit' , function(e){
         e.preventDefault();
         
-        error_name = false;
+        errorName = false;
         errorNewPassword = false;
         errorRetypePassword = false;
         errorEmail = false;
@@ -228,9 +228,14 @@ $(function() {
         checkGender();
         checkBirthday();
         
-        if(error_name === false && errorNewPassword === false && errorRetypePassword === false
+        if(errorName === false && errorNewPassword === false && errorRetypePassword === false && errorEmail === false
            && errorMobileNumber === false && errorAddress === false && errorPincode === false)
         {
+            $("table tbody").find('input[name="record"]').each(function(){
+                if($(this).is(":checked")){    
+                    $(this).parents("tr").remove();
+                }
+            });
             table_entry();  
             return true;
         }else{
@@ -292,11 +297,6 @@ $(function() {
                 $("#formPincode").val(tablePincode.html());
                 $("#formSelectCountry").val(tableCountry.html());
                 $("#formSelectState").val(tableState.html());
-                $("table tbody").find('input[name="record"]').each(function(){
-                    if($(this).is(":checked")){
-                        $(this).parents("tr").remove();
-                    }
-                });
             }
         });
     });
