@@ -1,48 +1,62 @@
+<!--
+* File    : personal.php
+* Purpose : Contains all html data and Php data for showing personal info
+* Created : 20-jan-2017
+* Author  : Satyapriya Baral
+-->
 
-<!DOCTYPE html>
-<html>
-<head>
-		<link rel="stylesheet" href="assets/css/bootstrap.css">
-		<link rel="stylesheet" href="assets/css/login.css">
-</head>
-<body>
+<?php
+  $PageTitle = "Home";
+  include_once 'header.php';
+	session_start();
+?>
 <nav class="navbar navbar-inverse">
   <ul class="nav navbar-nav">
     <li><a href="#">Home</a></li>
-    <li><a href="allusers.php">Users</a></li>
+		<?php
+		$n=$_SESSION["user"]; if("$n"== "Admin"){
+    echo "<li><a href="."allusers.php.".">Users</a></li>";}
+		?>
     <li><a href="personal.php">Personal Info</a></li>
+		<li><a href="login.php">Signout</a></li>
   </ul>
 </nav>
+	<table  class="table-striped table-bordered table-hover table-condensed">
+      <tr>
+          <th>User</th>
+          <th>Name</th>
+          <th>Email</th>
+      </tr>
 
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "myDB";
+	$servername = "localhost";
+	$username = "root";
+	$password = "";
+	$dbname = "myDB";
 
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-// Check connection
-if ($conn->connect_error) {
+	$conn = new mysqli($servername, $username, $password, $dbname);
+
+	if ($conn->connect_error) {
      die("Connection failed: " . $conn->connect_error);
-} 
-        //session_start();
-        $name = mysql_real_escape_string($_POST['username']);
-        $pass = mysql_real_escape_string($_POST['password']);
-        
-        $sql = "SELECT user, name, emaiL FROM logindata WHERE name='$name' AND password='$pass'";
+	} 
+        $n = $_SESSION["name"];
+        $sql = "SELECT user, name, email FROM logindata WHERE name='$n'";
         $result = $conn->query($sql);
         
 	if ($result->num_rows > 0) {
-	// output data of each row
-	while($row = $result->fetch_assoc()) {
-		echo "<br> user: ". $row["user"]. " - Name: ". $row["name"]. " - Email: " . $row["email"] . "<br>";
-	}
+			while($row = $result->fetch_assoc()) {
+          echo "<tr>";
+          echo "<td>" . $row["user"]. "</td>";
+          echo "<td>" . $row["name"]. "</td>";
+          echo "<td>" . $row["email"] . "</td>";
+          echo "</tr>";        
+		}
 	} else {
 	echo "0 results";
 	}
 	$conn->close();
 	?>  
 
-</body>
-</html>
+ <?php
+  include_once 'footer.php';
+  ?>
