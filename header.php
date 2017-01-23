@@ -7,4 +7,3 @@
 		<link rel="stylesheet" href="assets/css/bootstrap.css">
 		<link rel="stylesheet" href="assets/css/login.css">
   </head>
-  <body>

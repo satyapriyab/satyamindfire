@@ -10,24 +10,35 @@
   include_once 'header.php';
 	session_start();
 ?>
+
+<body>
 <nav class="navbar navbar-inverse">
-  <ul class="nav navbar-nav">
-    <li><a href="#">Home</a></li>
-		<?php
-		$n=$_SESSION["user"]; if("$n"== "Admin"){
-    echo "<li><a href="."allusers.php.".">Users</a></li>";}
-		?>
-    <li><a href="personal.php">Personal Info</a></li>
-		<li><a href="login.php">Signout</a></li>
-  </ul>
+  <div class="container-fluid">
+    <div class="navbar-header">
+    </div>
+    <ul class="nav navbar-nav">
+      <li><a href="home.php">Home</a></li>
+			<?php
+			$n=$_SESSION["user"]; if("$n"== "Admin"){
+			echo "<li><a href="."allusers.php".">Users</a></li>";}
+			?>
+      <li class="active"><a href="personal.php">Personal Info</a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="signout.php"><span></span> Signout</a></li>
+    </ul>
+  </div>
 </nav>
-	<table  class="table-striped table-bordered table-hover table-condensed">
+<div class="container">
+	<div class="col-md-6 col-md-offset-3">
+		<table  class="table-striped table-bordered table-hover table-condensed">
       <tr>
           <th>User</th>
           <th>Name</th>
           <th>Email</th>
       </tr>
-
+		</div>
+</div>
 <?php
 	$servername = "localhost";
 	$username = "root";
@@ -40,7 +51,7 @@
      die("Connection failed: " . $conn->connect_error);
 	} 
         $n = $_SESSION["name"];
-        $sql = "SELECT user, name, email FROM logindata WHERE name='$n'";
+        $sql = "SELECT id, user, name, email FROM logindata WHERE name='$n'";
         $result = $conn->query($sql);
         
 	if ($result->num_rows > 0) {
@@ -49,6 +60,7 @@
           echo "<td>" . $row["user"]. "</td>";
           echo "<td>" . $row["name"]. "</td>";
           echo "<td>" . $row["email"] . "</td>";
+					echo "<td><a href=\"update.php?id=".$row['id']."\">Update</a></td>";
           echo "</tr>";        
 		}
 	} else {

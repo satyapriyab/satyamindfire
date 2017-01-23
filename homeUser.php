@@ -12,12 +12,19 @@ include_once 'header.php';
 ?>
 
 <nav class="navbar navbar-inverse">
-  <ul class="nav navbar-nav">
-    <li><a href="homeUser.php">Home</a></li>
-    <li><a href="personal.php">Personal Info</a></li>
-    <li><a href="login.php">Signout</a></li>
-  </ul>
+  <div class="container-fluid">
+    <div class="navbar-header">
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="homeUser.php">Home</a></li>
+      <li><a href="personal.php">Personal Info</a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="login.php"><span></span> Signout</a></li>
+    </ul>
+  </div>
 </nav>
+
 <?php
 include_once 'footer.php';
 ?>

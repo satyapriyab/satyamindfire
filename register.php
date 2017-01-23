@@ -29,7 +29,7 @@ if(count($_POST)>0) {
 		$passError = 'Passwords should be same';
 		$error = true;
 	}
-
+	
 	/* Email Validation */
 	if(!isset($message)) {
 		if (!filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)) {
@@ -37,19 +37,42 @@ if(count($_POST)>0) {
 			$error = true;
 		}
 	}
-
+	
+	$servername = 'localhost';
+	$username = 'root';
+	$password = '';
+	$dbname = 'myDB';
+	$conn = new mysqli($servername, $username, $password, $dbname);
+     
+    if ($conn->connect_error) {
+          die("Connection failed: " . $conn->connect_error);
+    } 
+	$user = mysql_real_escape_string($_POST['selectUser']);
+	$name = mysql_real_escape_string($_POST['username']);
+	$email = mysql_real_escape_string($_POST['email']);
+	$pass = mysql_real_escape_string($_POST['password']);
+    $sql = "SELECT name, email FROM logindata";
+    $result = $conn->query($sql);
+    $flag = 0;
+    if ($result->num_rows > 0) {
+          while($row = $result->fetch_assoc()) {
+			if($name == $row["name"])
+			{
+				$nameError = 'Username already exists';
+				$error = true;
+			}
+			if($email == $row["email"])
+			{
+				$emailError = 'Email already exists';
+				$error = true;
+			}
+          }
+     }
+	 
 	if(!$error) {
-		$servername = 'localhost';
-		$username = 'root';
-		$password = '';
-		$dbname = 'myDB';
     
 		$conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
 		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		$user = mysql_real_escape_string($_POST['selectUser']);
-		$name = mysql_real_escape_string($_POST['username']);
-		$email = mysql_real_escape_string($_POST['email']);
-		$pass = mysql_real_escape_string($_POST['password']);
 		
 		$sql = "INSERT INTO logindata (user, name, email, password)
 		VALUES ('$user','$name','$email','$pass')";
@@ -66,6 +89,7 @@ if(count($_POST)>0) {
 $PageTitle = "Register";
 include_once 'header.php';
 ?>
+<body style = "padding-top: 90px">
 	<div class="container">
     	<div class="row">
 			<div class="col-md-6 col-md-offset-3">
@@ -85,7 +109,8 @@ include_once 'header.php';
 						<div class="row">
 							<div class="col-lg-12">
 								<form id="register-form" action="register.php" method="post">
-									<div class="message"><?php if(isset($message)) echo $message; ?></div>
+									<div><span style="color:red" id="name-error">
+									<?php if(isset($message)) echo $message; ?></span></div>
 									<div class="form-group">
 										<div class = "styled-select select">
 											<label class="SelectControl" for="RegisterAs" >Register As :</label>
@@ -113,7 +138,7 @@ include_once 'header.php';
 											   class="form-control" placeholder="Email Address"
 													 value="<?php if(isset($_POST['email']))
 													 echo $_POST['email']; ?>">
-												 	<span id="email-error">
+												 	<span style="color:red" id="email-error">
 													<?php
 													if(isset($emailError)) {
 														echo $emailError;

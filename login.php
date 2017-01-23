@@ -21,21 +21,20 @@
         if(mysqli_num_rows($result) == 1) {
 			$_SESSION["name"] = "$name";
 			$_SESSION["user"] = "$user";
-			if($user == $admin)
-			{
-				header("location:homeAdmin.php");
-			}
-			else {
-				header("location:homeUser.php");
-			}
+			header("location:home.php");
         }
         else {
             $message = 'Your email or password is incorrect';
         }
     }
+	if (isset($_SESSION["name"]))
+	{
+		header("location:home.php");
+	}
 	$PageTitle = "Login";
 	include_once 'header.php';
 ?>
+<body style = "padding-top: 90px">
 		<div class="container">
     	<div class="row">
 			<div class="col-md-6 col-md-offset-3">
@@ -65,7 +64,8 @@
 											</select>
 										</div>
 									</div>
-									<div class="message"><?php if(isset($message)) echo $message; ?></div>
+									<div><span style="color:red" id="name-error">
+									<?php if(isset($message)) echo $message; ?></span></div>
 									<div class="form-group">
 										<input type="text" name="username"
 											   id="username" class="form-control"

@@ -1,7 +1,9 @@
 <?php
-session_start();
-session_unset();
-session_destroy();
-header('Location: login.php');
-exit;
+    session_start();
+    $_SESSION = array();
+    unset($_SESSION);
+    session_destroy();
+    header("Cache-Control: no-cache, no-store, must-revalidate");
+    header("location:login.php");
+    exit;
 ?>
