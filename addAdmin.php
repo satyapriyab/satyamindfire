@@ -5,7 +5,10 @@
 * Created : 18-jan-2017
 * Author  : Satyapriya Baral
 */
-
+	session_start();
+	if (!isset($_SESSION["name"])) {
+    header("location:index.php");
+  }
 	$error = false;
 
 	/* Checking all fields are filled or not */
@@ -49,7 +52,7 @@
 	
 	//After click of submit button
 	if (isset($_POST['submit'])) {
-		$user = 'User';
+		$user = 'Admin';
 		//$user = mysql_real_escape_string($_POST['selectUser']);
 		$name = mysql_real_escape_string($_POST['username']);
 		$email = mysql_real_escape_string($_POST['email']);
@@ -62,7 +65,7 @@
 			$records = $result->getRecords();
 			foreach($records as $record){
 				//check for duplicate entry of email
-				if($email === $record->getField('email'))
+				if($email == $record->getField('email'))
 				{
 					$emailError = 'Email already exists';
 					$error = true;
@@ -83,10 +86,10 @@
 			$record->setField('name', $name);
 			$record->setField('email', $email);
 			$record->setField('password', $password);
-			$record->setField('parentId', 0);
+			$record->setField('parentId', $_SESSION["childId"]);
 			$result = $record->commit();
 			if(!empty($result)) {
-				$message = "You have registered successfully!";	
+				$message = "You have registered as a Admin successfully!";	
 				unset($_POST);
 			} else {
 				$message = "Problem in registration. Try Again!";	
@@ -103,10 +106,15 @@ include_once 'header.php';
 			<div class="navbar-header">
 			</div>
 				<ul class="nav navbar-nav">
-					<li><img src="logo.jpg" alt="" height="80" width="80" class="img-rounded"></li>
+					<li><img src="logo.jpg" alt="" height="50" width="50" class="img-rounded"></li>
+					<li><a href="home.php">Home</a></li>
+					<li><a href="allusers.php">Users</a></li>
+					<li><a href="personal.php">Personal Info</a></li>
+					<li><a href="addUser.php">Add User</a></li>
+					<li class="active"><a href="addAdmin.php">Add Admin</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
-					<li></li>
+					<li><a href="signout.php"><span></span> Signout</a></li>
 				</ul>
 			</div>
 		</nav>
@@ -117,10 +125,7 @@ include_once 'header.php';
 					<div class="panel-heading">
 						<div class="row">
 							<div class="col-xs-6">
-								<a href="index.php" id="login-form-link">Login</a>
-							</div>
-							<div class="col-xs-6">
-								<a href="register.php" class="active" id="register-form-link">Register</a>
+								<a href="" class="active" id="register-form-link">Register</a>
 							</div>
 						</div>
 						<hr>
@@ -128,7 +133,7 @@ include_once 'header.php';
 					<div class="panel-body">
 						<div class="row">
 							<div class="col-lg-12">
-								<form id="register-form" action="register.php" method="post">
+								<form id="register-form" action="addAdmin.php" method="post">
 									<div><span class="spancolor" id="name-error">
 									<?php if(isset($message)) echo $message; ?></span></div>
 									<div class="form-group">

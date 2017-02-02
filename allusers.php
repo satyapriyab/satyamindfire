@@ -1,25 +1,31 @@
-<!--
+<?php
+/*
 * File    : allusers.php
 * Purpose : Contains all html data and Php data for Admin showing all users
 * Created : 20-jan-2017
 * Author  : Satyapriya Baral
--->
+*/
 
-<?php
   session_start();
+	if (!isset($_SESSION["name"])) {
+    header("location:index.php");
+  }
   $PageTitle = "allUsers";
   include_once 'header.php';
 ?>
+
 <body>
-  
 <nav class="navbar navbar-inverse">
   <div class="container-fluid">
     <div class="navbar-header">
     </div>
     <ul class="nav navbar-nav">
+			<li><img src="logo.jpg" alt="" height="50" width="50" class="img-rounded"></li>
       <li><a href="home.php">Home</a></li>
       <li class="active"><a href="allusers.php">Users</a></li>
-      <li><a href="personal.php">Personal Info</a></li>
+      <li id="myBtn"><a href="personal.php#myBtn">Personal Info</a></li>
+			<li><a href="addUser.php">Add User</a></li>
+			<li><a href="addAdmin.php">Add Admin</a></li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
       <li><a href="signout.php"><span></span> Signout</a></li>
@@ -27,47 +33,74 @@
   </div>
 </nav>
 <div class="container">
-	<div class="col-md-6 col-md-offset-3">
-    <table  class="table-striped table-bordered table-hover table-condensed">
+		<div><span class="spancolor" id="name-error">
+			<?php if(isset($message)) echo $message; ?></span></div>
+		<div class="table-responsive">
+    <table  class="table table-striped table-bordered">
       <tr>
+				<th>Added</th>
         <th>User</th>
         <th>Name</th>
         <th>Email</th>
+				<th>Address</th>
+				<th>City</th>
+				<th>State</th>
+				<th><span class="glyphicon glyphicon-remove"></span></th>
+				<th><span class="glyphicon glyphicon-edit"></span></th>
       </tr>
-  </div>
-</div>
+			
 <?php
-  $servername = "localhost";
-  $username = "root";
-  $password = "";
-  $dbname = "myDB";
-
-  $conn = new mysqli($servername, $username, $password, $dbname);
+	
+	//Connecting to Filemaker database
+	require_once ('filemakerapi/Filemaker.php');
+	$fm = new FileMaker('userData', '172.16.9.62', 'admin', 'Baral@9439');
      
-  if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-  } 
-     
-  $sql = "SELECT id, user, name, email FROM logindata";
-  $result = $conn->query($sql);
-     
-  if ($result->num_rows > 0) {
-    // output data of each row
-    $delete='Delete';
-    while($row = $result->fetch_assoc()) {
-      echo "<tr>";
-      echo "<td>" . $row["user"]. "</td>";
-      echo "<td>" . $row["name"]. "</td>";
-      echo "<td>" . $row["email"] . "</td>";
-      echo "<td><a href=\"delete.php?id=".$row['id']."\">Delete</a></td>";
-      echo "<td><a href=\"update.php?id=".$row['id']."\">Update</a></td>";
-      echo "</tr>";
-    }
-  } else {
-    echo "0 results";
-  }
+	$request = $fm->newFindAllCommand('userData');
+	$result = $request->execute();
+	
+	if (FileMaker::isError($result)) {
+				$message = 'No Records Found'; 
+			} else {
+				$records = $result->getRecords();
+				foreach($records as $record){
+					if(($_SESSION["email"] != $record->getField('email')) &&
+						 (($_SESSION["childId"] === $record->getField('parentId')) ||
+							($record->getField('parentId') == 0))) {
+						echo "<tr>";
+						if($record->getField('parentId') == 0)
+						{
+							echo "<td>"."From Outside"."</td>";
+						}
+						else
+						{
+							echo "<td>By Admin  " .$_SESSION["name"]."</td>";
+						}
+						echo "<td>" . $record->getField('user'). "</td>";
+						echo "<td>" . $record->getField('name'). "</td>";
+						echo "<td>" . $record->getField('email') . "</td>";
+						$addressRecords= $record->getRelatedSet('addressData');
+						if (FileMaker::isError($addressRecords)) {
+							echo "<td>"."</td>";
+							echo "<td>"."</td>";
+							echo "<td>"."</td>";
+						} else {
+							foreach($addressRecords as $addressRecord){
+								echo "<td>" . $addressRecord->getField('addressData::address'). "</td>";
+								echo "<td>" . $addressRecord->getField('addressData::city'). "</td>";
+								echo "<td>" . $addressRecord->getField('addressData::state'). "</td>";
+							}
+						}
+						echo "<td><a href=\"http://localhost/fm/update.php?id=".$record->getrecordid()."\">Update</a></td>";
+						echo "<td><a href=\"http://localhost/fm/delete.php?id=".$record->getrecordid()."\">Delete</a></td>";
+					
+					}
+					echo "</tr>";
+				}
+			}
 ?>
-        
+    </table>
+	</div>
+</div>
 <?php
   include_once 'footer.php';
 ?>

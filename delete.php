@@ -1,17 +1,19 @@
 <?php
-    $servername = "localhost";
-	$username = "root";
-	$password = "";
-	$dbname = "myDB";
+/*
+* File    : delete.php
+* Purpose : Contains all php codes to delete a record.
+* Created : 25-jan-2017
+* Author  : Satyapriya Baral
+*/
 
-	$conn = new mysqli($servername, $username, $password, $dbname); 
-    // Check connection
-    if (mysqli_connect_errno()) {
-        echo "Failed to connect to MySQL: " . mysqli_connect_error();
-    }
+	session_start();
+	if (!isset($_SESSION["name"])) {
+		header("location:index.php");
+	}
+	require_once ('filemakerapi/Filemaker.php');
+	$fm = new FileMaker('userData', '172.16.9.62', 'admin', 'Baral@9439');
     $id = $_GET['id']; // $id is now defined
-
-    mysqli_query($conn,"DELETE FROM logindata WHERE id='".$id."'");
-    mysqli_close($conn);
+	$deleteRecord = $fm->newDeleteCommand('userData', $id);
+	$result = $deleteRecord->execute();
     header("Location: allusers.php");
 ?> 
